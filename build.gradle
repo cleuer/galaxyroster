@@ -1,0 +1,26 @@
+
+apply plugin: 'groovy'
+apply plugin: 'application'
+version = '1.0'
+mainClassName='org.galaxy.Roster'
+
+
+repositories {
+  mavenLocal()
+  maven { url 'http://ti-repo.rsc.humad.com/artifactory/public' }
+  mavenCentral()
+}
+
+dependencies {
+  compile 'org.codehaus.groovy:groovy-all:2.4.5'
+  compile 'org.apache.poi:poi:3.9'
+}
+
+jar {
+  manifest {
+    attributes "Main-Class": "$mainClassName"
+  }
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}

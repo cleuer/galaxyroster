@@ -1,0 +1,27 @@
+= Galaxy Roster
+
+This project is a prototype to build roster for Carlsbad Galaxy Recreational league.
+
+=== Build and deploy a runnable Jar
+
+[source, bash]
+--
+./gradlew clean build
+--
+
+=== To create four new divisions csv files from CalSouth file, run program in "new" mode
+[source, bash]
+--
+java -jar build/libs/galaxyroster-1.0.jar new CalSouth.xls
+--
+4 files will be generated: GalaxyGirlsSouth2018.csv, GalaxyGirlsNorth2018.csv, GalaxyBoysSouth2018.csv, GalaxyBoysNorth2018.csv
+
+=== To update four new divisions csv files from CalSouth file and 4 existing excel files, run program in "update" mode
+[source, bash]
+--
+java -jar build/libs/galaxyroster-1.0.jar update GalaxyCalSouth.xls GalaxyBoysSouth.xls GalaxyBoysNorth.xls GalaxyGirlsSouth.xls GalaxyGirlsNorth.xls
+--
+Order matter
+4 files will be generated: GalaxyGirlsSouth2018.csv, GalaxyGirlsNorth2018.csv, GalaxyBoysSouth2018.csv, GalaxyBoysNorth2018.csv
+
+
