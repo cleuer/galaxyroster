@@ -1,6 +1,6 @@
 = Galaxy Roster
 
-This project is a prototype to build roster for Carlsbad Galaxy Recreational league.
+This project is a prototype to build a roster for Carlsbad Galaxy Recreational league.
 
 === Build and deploy a runnable Jar
 

@@ -64,7 +64,7 @@ class Roster {
     if (runMode == 'update') {
       List<Player> existingGalaxyPlayers = getExistingGalaxyPlayers(runArgs)
       galaxyPlayers = addCalSouthPlayers (existingGalaxyPlayers, calSouthPlayers)
-      writeRosterToCsv(existingGalaxyPlayers) //todo
+      writeRosterToCsv(galaxyPlayers)
     } else {
       writeRosterToCsv(calSouthPlayers)
     }
@@ -125,9 +125,10 @@ class Roster {
 
 
   Date getBirthDate(String dob) {
+    println dob
     String longDateFormat = 'EEE MMM dd HH:mm:ss z yyyy'
     if (dob) {
-      if (dob.length() == longDateFormat.length()) {
+      if (dob.length() == 28) {
         return new Date().parse('EEE MMM dd HH:mm:ss z yyyy', dob)
       } else if (dob.length() == 10) {  //default
         new Date().parse('MM/dd/yyyy', dob)
@@ -153,10 +154,9 @@ class Roster {
         mobilePhone = Cell_Phone
         it.division = Division
         playerId = Player_ID
-        ageGroup = Age_Group
+        ageGroup = Age_Group as String
         it
       }
-      players.each { println it }
     }
     players
   }
@@ -178,12 +178,12 @@ class Roster {
    * Write roster to 4 divisions boys-south, boys-north, girls-north, and girls south
    */
   void writeRosterToCsv(List<Player> galaxyPlayers) {
-
     println 'writing csv files'
-
     Closure writePlayer = { writer, player ->
-      player.with {
-        writer.write("$fullName,${birthYear ?: ''},$lastYearRanking,$buddyRequest,$schoolName,$parentName,$mobilePhone,$email,$lastName,$firstName,$gender,${birthDate.format('MM/dd/yyyy')},$divisionLocation,$playerId\n")
+      if (player.fullName && player.birthYear) {
+        player.with {
+          writer.write("$fullName,${birthYear ?: ''},$lastYearRanking,$buddyRequest,$schoolName,$parentName,$mobilePhone,$email,$lastName,$firstName,$gender,${birthDate.format('MM/dd/yyyy')},$division,$playerId\n")
+        }
       }
     }
     BufferedWriter girlsNorthWriter = new File(GALAXY_GIRLS_NORTH_FILENAME).newWriter()
@@ -197,15 +197,16 @@ class Roster {
     boysSouthWriter.write(GALAXY_HEADERS)
 
     galaxyPlayers.each { player ->
-      if (player.divisionLocation == NORTH && player.gender == GIRL) {
+      if (player.division == NORTH && player.gender == GIRL) {
         writePlayer(girlsNorthWriter, player)
-      } else if (player.divisionLocation == NORTH && player.gender == BOY) {
+      } else if (player.division == NORTH && player.gender == BOY) {
         writePlayer(boysNorthWriter, player)
-      } else if (player.divisionLocation == SOUTH && player.gender == GIRL) {
+      } else if (player.division == SOUTH && player.gender == GIRL) {
         writePlayer(girlsSouthWriter, player)
-      } else if (player.divisionLocation == SOUTH && player.gender == BOY) {
+      } else if (player.division == SOUTH && player.gender == BOY) {
         writePlayer(boysSouthWriter, player)
       }
+    println player
     }
     boysNorthWriter.close()
     boysSouthWriter.close()
