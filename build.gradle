@@ -13,7 +13,15 @@ repositories {
 
 dependencies {
   compile 'org.codehaus.groovy:groovy-all:2.4.5'
-  compile 'org.apache.poi:poi:3.9'
+  compile 'org.apache.poi:poi:3.17'
+  compile 'org.apache.poi:poi-ooxml:3.17'
+  compile 'com.opencsv:opencsv:3.9'
+  compile 'org.slf4j:slf4j-api:1.7.25'
+  compile 'ch.qos.logback:logback-classic:1.2.3'
+  compile 'ch.qos.logback:logback-core:1.2.3'
+  compile 'commons-lang:commons-lang:2.6'
+
+  //org.apache.poi.xssf
 }
 
 jar {
